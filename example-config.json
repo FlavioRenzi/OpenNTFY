@@ -1,0 +1,4 @@
+{
+    "TELEGRAM_TOKEN" : "your-Telegram-bot-token",
+    "TELEGRAM_CHAT_ID" : "your-Telegram-chat-id"
+}
