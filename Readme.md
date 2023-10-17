@@ -20,7 +20,8 @@ OpenNTFY -p 5m30s "watch ip address" "Ip at time {T} is:"
 
 ## ToDo
 
-- [ ] Add config file
+- [x] Add config file
+- [ ] Add install script
 - [ ] Add initial guided setup
 - [ ] Add support for file sending
 - [x] Add verbose mode
