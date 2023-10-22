@@ -15,8 +15,9 @@ import threading
 
 parser = argparse.ArgumentParser(description='Telegram notifier')
 parser.add_argument('message', type=str, help='The message to send')
-parser.add_argument('-p','--periodic', nargs=2, metavar=('period', 'command'), help='An optional parameter')
+parser.add_argument('-p','--periodic', nargs=2, metavar=('period', 'command'), help='Execute a command getting periodical updates')
 parser.add_argument('-v','--verbose', action='store_true', help='Verbose mode')
+parser.add_argument('-f','--file', type=str, help='File to send with relative path')
 
 loop = asyncio.get_event_loop()
 config = {}
@@ -94,6 +95,8 @@ if __name__ == '__main__':
         }
         message = args.message.format(**filds)+'\n'
         
+        
+        
         # Periodic execution
         if args.periodic:
             period = parse_time_string(args.periodic[0])
@@ -127,14 +130,23 @@ if __name__ == '__main__':
             cmd = sys.stdin.read()
             message += cmd
         
-        
-        # Send message
-        verboseprint(f"Sending message: {message}")
-        try:
-            send(message)
-            verboseprint("Message sent")
-        except Exception as e:
-            print(f"Error durig message sending: {str(e)}")
-            sys.exit(1)
+        # Send file
+        if args.file:
+            verboseprint(f"Sending file: {args.file}")
+            try:
+                loop.run_until_complete(bot.send_document(chat_id=config['TELEGRAM_CHAT_ID'], document=open(args.file, 'rb'), caption=message))
+                verboseprint("File sent")
+            except Exception as e:
+                print(f"Error durig file sending: {str(e)}")
+                sys.exit(1)
+        else:
+            # Send message
+            verboseprint(f"Sending message: {message}")
+            try:
+                send(message)
+                verboseprint("Message sent")
+            except Exception as e:
+                print(f"Error durig message sending: {str(e)}")
+                sys.exit(1)
     except KeyboardInterrupt:
         sys.exit(1)
