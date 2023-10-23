@@ -11,7 +11,13 @@ just run the following command in your terminal
 wget -O - https://raw.githubusercontent.com/FlavioRenzi/OpenNTFY/master/install.sh | bash
 ```
 
-Insert your telegram bot token and chat id in the config file
+the first time run the following command to configure OpenNTFY
+
+```bash
+OpenNTFY --configure
+```
+
+You can also manually create the config file with the following command
 
 ```bash
 nano ~/.config/OpenNTFY/config.json
@@ -68,7 +74,7 @@ pyinstaller -F OpenNTFY.py
 - [x] Add config file
 - [x] Add install script
 - [x] Implement periodic notifications
-- [ ] Add initial guided setup
+- [x] Add initial guided setup
 - [x] Add support for file sending
 - [x] Add verbose mode
 - [ ] Add installation guide

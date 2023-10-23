@@ -2,3 +2,5 @@ build
 *.spec
 
 *.code-workspace
+__pycache__/
+venv_NTFY/

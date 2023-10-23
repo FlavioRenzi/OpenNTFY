@@ -10,14 +10,16 @@ import json
 import pyte
 import time
 import threading
+import Telegram_config
 
 
 
 parser = argparse.ArgumentParser(description='Telegram notifier')
-parser.add_argument('message', type=str, help='The message to send')
+parser.add_argument('message', nargs='?', default='Notification from {N}', type=str, help='The message to send')
 parser.add_argument('-p','--periodic', nargs=2, metavar=('period', 'command'), help='Execute a command getting periodical updates')
 parser.add_argument('-v','--verbose', action='store_true', help='Verbose mode')
 parser.add_argument('-f','--file', type=str, help='File to send with relative path')
+parser.add_argument('--config', action='store_true', help='Config telegram bot')
 
 loop = asyncio.get_event_loop()
 config = {}
@@ -68,14 +70,17 @@ def parse_time_string(time_str):
 
 if __name__ == '__main__':
     try:
-        # Load config
-        config = json.load(open(os.path.expanduser('~')+'/.config/OpenNTFY/config.json'))
-        #print(config)
-        bot = Bot(config['TELEGRAM_TOKEN'])
+        
         
         
         # Parse arguments
         args = parser.parse_args()
+        
+        if args.config:
+            Telegram_config.run()
+            sys.exit(0)
+        
+        
         if args.verbose:
             def verboseprint(*args):
                 for arg in args:
@@ -84,6 +89,12 @@ if __name__ == '__main__':
         else:   
             verboseprint = lambda *a: None      # do-nothing function
         #print(args)
+        
+        
+        # Load config
+        config = json.load(open(os.path.expanduser('~')+'/.config/OpenNTFY/config.json'))
+        #print(config)
+        bot = Bot(config['TELEGRAM_TOKEN'])
         
         
         # Parse placeholders
