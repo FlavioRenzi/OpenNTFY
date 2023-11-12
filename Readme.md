@@ -14,7 +14,7 @@ wget -O - https://raw.githubusercontent.com/FlavioRenzi/OpenNTFY/master/install.
 the first time run the following command to configure OpenNTFY
 
 ```bash
-OpenNTFY --configure
+OpenNTFY --config
 ```
 
 You can also manually create the config file with the following command
