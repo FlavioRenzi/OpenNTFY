@@ -68,11 +68,9 @@ def parse_time_string(time_str):
 
     return timedelta(seconds=total_seconds)
 
+
 if __name__ == '__main__':
     try:
-        
-        
-        
         # Parse arguments
         args = parser.parse_args()
         
