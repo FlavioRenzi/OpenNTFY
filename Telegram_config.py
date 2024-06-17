@@ -99,7 +99,7 @@ class FinalCheck(App):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.exit(event.button.id)
 
-def run():
+def run(config_path: str):
     loop = asyncio.get_event_loop()
     finished = False
     while not finished:
@@ -122,9 +122,16 @@ def run():
         finished = True if FinalCheck().run() == "yes" else False
     #print(token, known_chatid)
     #(os.path.expanduser('~')+'/.config/OpenNTFY/config.json'))
-    config = json.load(open((os.path.expanduser('~')+'/.config/OpenNTFY/config.json')))
-    config.update({'TELEGRAM_TOKEN': token, 'TELEGRAM_CHAT_ID': chat_id})
-    os.system('''sudo sh -c 'echo "''' + json.dumps(config).replace('"','\\"') + '" > '+ (os.path.expanduser('~')+'/.config/OpenNTFY/config.json')+ "'")
+    if not os.path.exists(config_path):
+        os.makedirs(os.path.dirname(config_path), exist_ok=True)
+        with open(config_path, 'w') as config_file:
+            config = {'TELEGRAM_TOKEN': token, 'TELEGRAM_CHAT_ID': chat_id}
+            config_file.write(json.dumps(config))
+    else:
+        with open(config_path, 'rw') as config_file:
+            config = json.load(config_file)
+            config.update({'TELEGRAM_TOKEN': token, 'TELEGRAM_CHAT_ID': chat_id})
+            config_file.write(json.dumps(config))
     
 if __name__ == "__main__":
     run()

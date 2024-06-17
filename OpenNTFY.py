@@ -1,7 +1,6 @@
 import sys
 import os
 import asyncio
-from telegram import Bot
 import subprocess
 import argparse
 from datetime import datetime, timedelta
@@ -11,6 +10,8 @@ import pyte
 import time
 import threading
 import Telegram_config
+import platform
+from telegram import Bot
 
 
 
@@ -20,6 +21,13 @@ parser.add_argument('-p','--periodic', nargs=2, metavar=('period', 'command'), h
 parser.add_argument('-v','--verbose', action='store_true', help='Verbose mode')
 parser.add_argument('-f','--file', type=str, help='File to send with relative path')
 parser.add_argument('--config', action='store_true', help='Config telegram bot')
+
+
+if platform.system() == 'Linux':
+    config_path = os.path.expanduser('~')+'/.config/OpenNTFY/config.json'
+elif platform.system() == 'Windows':
+    config_path = os.path.expanduser('~')+'\\AppData\\Roaming\\OpenNTFY\\config.json'
+    
 
 loop = asyncio.get_event_loop()
 config = {}
@@ -75,7 +83,7 @@ if __name__ == '__main__':
         args = parser.parse_args()
         
         if args.config:
-            Telegram_config.run()
+            Telegram_config.run(config_path)
             sys.exit(0)
         
         
@@ -90,15 +98,20 @@ if __name__ == '__main__':
         
         
         # Load config
-        config = json.load(open(os.path.expanduser('~')+'/.config/OpenNTFY/config.json'))
-        #print(config)
+        try:
+            with open(config_path) as f:
+                config = json.load(f)
+        except Exception as e:
+            print(f"Error loading config: {str(e)}")
+            print("Please run OpenNTFY.py --config")
+            sys.exit(1)
         bot = Bot(config['TELEGRAM_TOKEN'])
         
         
         # Parse placeholders
         dt = datetime.now()
         filds = {
-            'N': os.uname()[1],
+            'N': platform.uname()[1],
             'T': dt.strftime("%H:%M:%S"), 
             'D': dt.strftime("%d:%m:%Y")
         }
