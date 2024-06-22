@@ -49,7 +49,8 @@ long_program | OpenNTFY "Program terminated with result:"
 ```
 
 Send a message to your telegram bot after the execution of a command and also a periodic message with the live view of it
-> :warning: this is not supported on Windows
+> :warning: this is not supported on 
+
 
 ```bash
 OpenNTFY -p 5m30s "watch ip address" "End message"
