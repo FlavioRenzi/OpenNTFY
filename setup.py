@@ -16,12 +16,6 @@ setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
-    install_requires=[
-        'asyncio',
-        'textual',
-        'python-telegram-bot',
-        'pyte',
-    ],
     entry_points={
         'console_scripts': [
             'OpenNTFY=OpenNTFY.OpenNTFY:main',
