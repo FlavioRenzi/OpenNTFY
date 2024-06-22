@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='OpenNTFY',
-    version='0.1.0',
+    version='0.1.1',
     author='Flavio Renzi',
     author_email='flavioinv@gmail.com',
     description='A simple command line tool to send notifications to your telegram bot',
