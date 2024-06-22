@@ -1,0 +1,1 @@
+from .OpenNTFY import main

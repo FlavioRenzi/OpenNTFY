@@ -1,5 +1,7 @@
 build
 *.spec
+dist
+*.egg-info
 
 *.code-workspace
 __pycache__/
